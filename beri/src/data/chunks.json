@@ -1,0 +1,52 @@
+[
+  {
+    "id": "placeholder-0",
+    "content": "This is placeholder content. The policy documents will be processed and embedded before the final deployment. For now, this placeholder allows the application to load and be tested.",
+    "embedding": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+    "metadata": {
+      "source": "Placeholder Policy",
+      "section": "Getting Started",
+      "chunkIndex": 0
+    }
+  },
+  {
+    "id": "placeholder-1",
+    "content": "Mobile phone use: Students are not permitted to use mobile phones during school hours without explicit permission from a member of staff. Phones must be switched off and kept in bags during lessons.",
+    "embedding": [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1],
+    "metadata": {
+      "source": "E-Safety Policy",
+      "section": "Mobile Phone Rules",
+      "chunkIndex": 0
+    }
+  },
+  {
+    "id": "placeholder-2",
+    "content": "AI Tools and Academic Integrity: Students may use AI tools such as ChatGPT for brainstorming and research purposes only. Any work submitted must be the student's own original writing. Using AI to generate text that is submitted as your own work constitutes plagiarism.",
+    "embedding": [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1, 0.2],
+    "metadata": {
+      "source": "Academic Integrity Policy",
+      "section": "AI Tools",
+      "chunkIndex": 0
+    }
+  },
+  {
+    "id": "placeholder-3",
+    "content": "Plagiarism consequences: First offence results in a formal warning and requirement to resubmit work. Second offence leads to detention and parental notification. Repeated offences may result in suspension and impact on academic references.",
+    "embedding": [0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1, 0.2, 0.3],
+    "metadata": {
+      "source": "Academic Integrity Policy",
+      "section": "Consequences",
+      "chunkIndex": 1
+    }
+  },
+  {
+    "id": "placeholder-4",
+    "content": "Personal data access: Students and parents have the right to request access to personal data held by the school. Such requests should be made in writing to the Data Protection Officer. The school will respond within 30 days.",
+    "embedding": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1, 0.2, 0.3, 0.4],
+    "metadata": {
+      "source": "Data Protection Policy",
+      "section": "Subject Access Rights",
+      "chunkIndex": 0
+    }
+  }
+]
