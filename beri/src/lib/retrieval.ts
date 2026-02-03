@@ -46,37 +46,58 @@ export async function retrieveContext(query: string): Promise<ScoredChunk[]> {
   // Get all chunks from storage
   const chunks = await getAllChunks()
 
+  if (chunks.length === 0) {
+    console.warn('No chunks in storage!')
+    return []
+  }
+
   // Score all chunks
   const scoredChunks: ScoredChunk[] = chunks.map((chunk) => ({
     ...chunk,
     score: cosineSimilarity(queryEmbedding, chunk.embedding),
   }))
 
-  // Sort by score (highest first) and filter by threshold
-  const relevantChunks = scoredChunks
+  // Sort by score (highest first)
+  const sortedChunks = scoredChunks.sort((a, b) => b.score - a.score)
+
+  // Log top scores for debugging
+  console.log('Top chunk scores:', sortedChunks.slice(0, 5).map(c => ({
+    source: c.metadata.source,
+    section: c.metadata.section,
+    score: c.score.toFixed(3)
+  })))
+
+  // Filter by threshold and take top K
+  const relevantChunks = sortedChunks
     .filter((chunk) => chunk.score >= SIMILARITY_THRESHOLD)
-    .sort((a, b) => b.score - a.score)
     .slice(0, TOP_K_CHUNKS)
+
+  // If no chunks pass threshold, take top 2 anyway (fallback)
+  if (relevantChunks.length === 0 && sortedChunks.length > 0) {
+    console.log('No chunks passed threshold, using top 2 as fallback')
+    return sortedChunks.slice(0, 2)
+  }
 
   return relevantChunks
 }
 
 /**
  * Format retrieved chunks into a context string for the LLM
+ * Uses a simple format optimised for small language models
  * @param chunks - The retrieved chunks
  * @returns Formatted context string
  */
 export function formatContext(chunks: ScoredChunk[]): string {
   if (chunks.length === 0) {
-    return 'No relevant policy content found.'
+    return 'No relevant policy information found. Tell the user to check with a member of staff.'
   }
 
+  // Simple, clean format for small models
   return chunks
-    .map((chunk, index) => {
-      const source = `[Source ${index + 1}: ${chunk.metadata.source} - ${chunk.metadata.section}]`
-      return `${source}\n${chunk.content}`
+    .map((chunk) => {
+      return `From ${chunk.metadata.source} (${chunk.metadata.section}):\n${chunk.content}`
     })
-    .join('\n\n---\n\n')
+    .join('\n\n')
 }
 
 /**

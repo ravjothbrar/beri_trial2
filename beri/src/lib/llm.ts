@@ -48,14 +48,15 @@ export async function initLLM(onProgress?: ProgressCallback): Promise<void> {
 
 /**
  * Generate a response using the LLM
- * @param systemPrompt - The system prompt
+ * Uses a simple prompt format optimised for small models
+ * @param _systemPrompt - The system prompt (unused, kept for API compatibility)
  * @param context - The retrieved context
  * @param query - The user's question
  * @param onToken - Callback for each generated token
  * @returns The complete response
  */
 export async function generate(
-  systemPrompt: string,
+  _systemPrompt: string,
   context: string,
   query: string,
   onToken?: (token: string) => void
@@ -64,16 +65,19 @@ export async function generate(
     throw new Error('LLM not initialised')
   }
 
-  const userMessage = `CONTEXT:
+  // Simple, direct prompt format for small models
+  // Putting everything in user message works better than system+user split
+  const prompt = `You are BERI, a school policy assistant. Answer the question using ONLY the information below. Be brief and cite the source.
+
+POLICY INFORMATION:
 ${context}
 
 QUESTION: ${query}
 
-Based on the context above, please answer the question. Remember to cite your sources.`
+ANSWER:`
 
   const messages: webllm.ChatCompletionMessageParam[] = [
-    { role: 'system', content: systemPrompt },
-    { role: 'user', content: userMessage },
+    { role: 'user', content: prompt },
   ]
 
   let fullResponse = ''
@@ -92,6 +96,9 @@ Based on the context above, please answer the question. Remember to cite your so
       onToken?.(token)
     }
   }
+
+  // Reset chat after each response to avoid context buildup
+  await engine.resetChat()
 
   return fullResponse
 }
