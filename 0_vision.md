@@ -1,6 +1,6 @@
 BERI Project Vision 
 
-Project Name 
+Project Name:
 
 BERI - Bespoke Education Retrieval Infrastructure 
 
